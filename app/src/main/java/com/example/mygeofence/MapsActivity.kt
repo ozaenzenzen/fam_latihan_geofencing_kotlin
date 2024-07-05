@@ -1,5 +1,6 @@
 package com.example.mygeofence
 
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 
@@ -10,11 +11,16 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.example.mygeofence.databinding.ActivityMapsBinding
+import com.google.android.gms.maps.model.CircleOptions
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
     private lateinit var binding: ActivityMapsBinding
+
+    private val centerLat = 37.4274745
+    private val centerLng = -122.169719
+    private val geofenceRadius = 400.0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,9 +46,23 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
 
-        // Add a marker in Sydney and move the camera
-        val sydney = LatLng(-34.0, 151.0)
-        mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+        mMap.uiSettings.isZoomControlsEnabled = true
+
+        val stanford = LatLng(centerLat, centerLng)
+        mMap.addMarker(
+            MarkerOptions()
+                .position(stanford)
+                .title("Stanform University")
+        )
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(stanford, 15f))
+
+        mMap.addCircle(
+            CircleOptions()
+                .center(stanford)
+                .radius(geofenceRadius)
+                .fillColor(0x22ff0000)
+                .strokeColor(Color.RED)
+                .strokeWidth(3f)
+        )
     }
 }
