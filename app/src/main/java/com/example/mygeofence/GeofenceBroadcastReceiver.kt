@@ -67,7 +67,6 @@ class GeofenceBroadcastReceiver : BroadcastReceiver() {
         val notification = mBuilder.build()
 
         mNotificationManager.notify(NOTIFICATION_ID, notification)
-
     }
 
     companion object {
